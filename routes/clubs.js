@@ -1,15 +1,18 @@
 import { Router } from "express";
-import { CreateClubs, GetClubLists, } from "../controllers/clubs.js";
+import {
+  CreateClubs,
+  GetClubLists,
+  Edit,
+  AddReview,
+  DeleteReview,
+} from "../controllers/clubs.js";
 
 const clubsRouter = Router();
 
-// @desc    Get clubs lists
-// @route   GET /api/roles/clublists
-// @params  -
-// @access  Public
 clubsRouter.get("/clublists", GetClubLists);
-
-clubsRouter.post("/createclubs", CreateClubs);
-
+clubsRouter.post("/create", CreateClubs);
+clubsRouter.post("/edit", Edit);
+clubsRouter.post("/add-review", AddReview);
+clubsRouter.post("/delete-review", DeleteReview);
 
 export default clubsRouter;
