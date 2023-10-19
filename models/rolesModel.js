@@ -9,7 +9,7 @@ const rolesSchema = new Schema({
   tag: {
     type: String,
     require: true,
-    unique: true,
+    unique: false,
   },
   name: {
     type: String,
