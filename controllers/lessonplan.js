@@ -68,62 +68,62 @@ export const Edit = async (req, res) => {
 };
 
 export const GetLessonPlanLists = async (req, res) => {
-    try {
-        const filePath = path.join(process.cwd(), "models", "rolesData.json");
-        const jsonData = await getRolesData(filePath);
-        return sendResponse(res, 200, jsonData["สายการเรียน"]);
-    } catch (err) {
-        console.log(err);
-        return sendResponse(res, 404, err.message);
-    }
-}
+  try {
+    const filePath = path.join(process.cwd(), "models", "rolesData.json");
+    const jsonData = await getRolesData(filePath);
+    return sendResponse(res, 200, jsonData["สายการเรียน"]);
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 404, err.message);
+  }
+};
 
 export const DeleteReview = async (req, res) => {
-    const { email } = req.body;
-    try {
-        const user = await rolesModel.findOne({ email: email });
-        if (user) {
-            const lessonPlan = await lessonplanModel.findOne({ name: user.name });
+  const { email } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    if (user) {
+      const lessonPlan = await lessonplanModel.findOne({ name: user.name });
 
-            if (lessonPlan && lessonPlan.counts > 1) {
-                const result = await lessonplanModel.findOneAndUpdate(
-                    { name: user.name },
-                    { $inc: { counts: -1 }  },
-                    { new: true }
-                )
-                await result.save();
-                return sendResponse(res, 200, "Update Successful");
-            } else {
-                return sendResponse(res, 400, "Review count cannot be less than 1");
-            }
-        }
-    } catch (err) {
-        console.log(err);
-        return sendResponse(res, 500, "Internal Server Error");
+      if (lessonPlan && lessonPlan.counts > 1) {
+        const result = await lessonplanModel.findOneAndUpdate(
+          { name: user.name },
+          { $inc: { counts: -1 } },
+          { new: true }
+        );
+        await result.save();
+        return sendResponse(res, 200, "Update Successful");
+      } else {
+        return sendResponse(res, 400, "Review count cannot be less than 1");
+      }
     }
-}
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
 
 export const AddReview = async (req, res) => {
-    const { email } = req.body;
-    try {
-        const user = await rolesModel.findOne({ email: email });
-        if (user) {
-            const lessonPlan = await lessonplanModel.findOne({ name: user.name });
+  const { email } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    if (user) {
+      const lessonPlan = await lessonplanModel.findOne({ name: user.name });
 
-            if (lessonPlan && lessonPlan.counts < 3) {
-                const result = await lessonplanModel.findOneAndUpdate(
-                    { name: user.name },
-                    { $inc: { counts: 1 }  },
-                    { new: true }
-                )
-                await result.save();
-                return sendResponse(res, 200, "Update Successful");
-            } else {
-                return sendResponse(res, 400, "Review count cannot be more than 3");
-            }
-        }
-    } catch (err) {
-        console.log(err);
-        return sendResponse(res, 500, "Internal Server Error");
+      if (lessonPlan && lessonPlan.counts < 3) {
+        const result = await lessonplanModel.findOneAndUpdate(
+          { name: user.name },
+          { $inc: { counts: 1 } },
+          { new: true }
+        );
+        await result.save();
+        return sendResponse(res, 200, "Update Successful");
+      } else {
+        return sendResponse(res, 400, "Review count cannot be more than 3");
+      }
     }
-}
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};

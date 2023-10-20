@@ -115,7 +115,7 @@ export const AddReview = async (req, res) => {
           { name: user.name },
           { $inc: { counts: 1 } },
           { new: true }
-        ); 
+        );
         await result.save();
         return sendResponse(res, 200, "Update Successful");
       } else {
