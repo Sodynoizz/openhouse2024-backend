@@ -1,6 +1,6 @@
 import { Router } from "express";
 import {
-  CreateClubs,
+  // CreateClubs,
   GetClubLists,
   Edit,
   AddReview,
@@ -9,10 +9,10 @@ import {
 
 const clubsRouter = Router();
 
-clubsRouter.get("/clublists", GetClubLists);
-clubsRouter.post("/create", CreateClubs);
+clubsRouter.get("/lists", GetClubLists);
 clubsRouter.post("/edit", Edit);
 clubsRouter.post("/add-review", AddReview);
 clubsRouter.post("/delete-review", DeleteReview);
+// clubsRouter.post("/create", CreateClubs);
 
 export default clubsRouter;
