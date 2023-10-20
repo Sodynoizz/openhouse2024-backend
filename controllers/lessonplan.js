@@ -1,17 +1,17 @@
 import path from "path";
 import rolesModel from "../models/rolesModel.js";
-import clubsModel from "../models/clubsModel.js";
+import lessonplanModel from "../models/lessonplanModel.js";
 import { sendResponse, getRolesData } from "../utils/util.js";
 
-// export const CreateClubs = async (req, res) => {
+// export const CreateLessonPlans = async (req, res) => {
 //   try {
 //     const filePath = path.join(process.cwd(), "models", "rolesData.json");
 //     const jsonData = await getRolesData(filePath);
 //     console.log(jsonData);
-//     for (let i = 0; i < 69; i++) {
+//     for (let i = 0; i < 12; i++) {
 //       const data = {
 //         id: i + 1,
-//         name: jsonData["ชมรม"][i],
+//         name: jsonData["สายการเรียน"][i],
 //         review_1: {
 //           name: "",
 //           gen: "",
@@ -31,7 +31,7 @@ import { sendResponse, getRolesData } from "../utils/util.js";
 //           review: "",
 //         },
 //       };
-//       await clubsModel.create(data);
+//       await lessonplanModel.create(data);
 //     }
 //     return sendResponse(res, 200, "Update clubs successfully");
 //   } catch (err) {
@@ -46,7 +46,7 @@ export const Edit = async (req, res) => {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
       const status = "อยู่ระหว่างการตรวจสอบ";
-      const result = await clubsModel.findOneAndUpdate(
+      const result = await lessonplanModel.findOneAndUpdate(
         { name: user.name },
         {
           $set: {
@@ -67,11 +67,11 @@ export const Edit = async (req, res) => {
   }
 };
 
-export const GetClubLists = async (req, res) => {
+export const GetLessonPlanLists = async (req, res) => {
   try {
     const filePath = path.join(process.cwd(), "models", "rolesData.json");
     const jsonData = await getRolesData(filePath);
-    return sendResponse(res, 200, jsonData["ชมรม"]);
+    return sendResponse(res, 200, jsonData["สายการเรียน"]);
   } catch (err) {
     console.log(err);
     return sendResponse(res, 404, err.message);
@@ -83,10 +83,10 @@ export const DeleteReview = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
-      const clubs = await clubsModel.findOne({ name: user.name });
+      const lessonPlan = await lessonplanModel.findOne({ name: user.name });
 
-      if (clubs && clubs.counts > 1) {
-        const result = await clubsModel.findOneAndUpdate(
+      if (lessonPlan && lessonPlan.counts > 1) {
+        const result = await lessonplanModel.findOneAndUpdate(
           { name: user.name },
           { $inc: { counts: -1 } },
           { new: true }
@@ -108,10 +108,10 @@ export const AddReview = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
-      const clubs = await clubsModel.findOne({ name: user.name });
+      const lessonPlan = await lessonplanModel.findOne({ name: user.name });
 
-      if (clubs && clubs.counts < 3) {
-        const result = await clubsModel.findOneAndUpdate(
+      if (lessonPlan && lessonPlan.counts < 3) {
+        const result = await lessonplanModel.findOneAndUpdate(
           { name: user.name },
           { $inc: { counts: 1 } },
           { new: true }
@@ -138,7 +138,7 @@ export const UploadImage = async (req, res) => {
         contenttype: req.file.mimetype,
       }
     }; 
-    await clubsModel.findOneAndUpdate({ name: user.name }, update);
+    await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
   } catch (err) {
     console.log(err);
@@ -150,7 +150,7 @@ export const GetImage = async (req, res) => {
   const { email, imageType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
-    const clubs = await clubsModel.findOne({ name: user.name });
+    const clubs = await lessonplanModel.findOne({ name: user.name });
     const image = clubs[imageType];
     res.setHeader("Content-Type", image.contenttype);
     res.send(image.data);
@@ -170,7 +170,7 @@ export const UploadProfile = async (req, res) => {
         contenttype: req.file.mimetype,
       }
     };
-    await clubsModel.findOneAndUpdate({ name: user.name }, update);
+    await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
   } catch (err) {
     console.log(err);
@@ -182,7 +182,7 @@ export const GetProfile = async (req, res) => {
   const { email, imgprofileType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
-    const clubs = await clubsModel.findOne({ name: user.name });
+    const clubs = await lessonplanModel.findOne({ name: user.name });
     const image = clubs[imgprofileType];
     res.setHeader("Content-Type", image["contenttype"]);
     res.send(image["data"]);

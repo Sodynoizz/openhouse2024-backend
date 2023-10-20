@@ -1,15 +1,30 @@
 import { Router } from "express";
-import { CreateClubs, GetClubLists, } from "../controllers/clubs.js";
+import multer from "multer";
+import {
+  // CreateClubs,
+  GetClubLists,
+  Edit,
+  AddReview,
+  DeleteReview,
+  UploadImage,
+  GetImage,
+  UploadProfile,
+  GetProfile,
+} from "../controllers/clubs.js";
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 const clubsRouter = Router();
 
-// @desc    Get clubs lists
-// @route   GET /api/roles/clublists
-// @params  -
-// @access  Public
-clubsRouter.get("/clublists", GetClubLists);
-
-clubsRouter.post("/createclubs", CreateClubs);
-
+// clubsRouter.post("/create", CreateClubs);
+clubsRouter.get("/lists", GetClubLists);
+clubsRouter.post("/edit", Edit);
+clubsRouter.post("/add-review", AddReview);
+clubsRouter.post("/delete-review", DeleteReview);
+clubsRouter.post("/upload-image", upload.single("file"), UploadImage);
+clubsRouter.post("/get-image", GetImage);
+clubsRouter.post("/upload-profile", upload.single("file"), UploadProfile);
+clubsRouter.post("/get-profile", GetProfile);
 
 export default clubsRouter;
