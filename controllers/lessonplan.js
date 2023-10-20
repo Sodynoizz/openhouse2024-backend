@@ -3,42 +3,42 @@ import rolesModel from "../models/rolesModel.js";
 import lessonplanModel from "../models/lessonplanModel.js";
 import { sendResponse, getRolesData } from "../utils/util.js";
 
-export const CreateLessonPlans = async (req, res) => {
-  try {
-    const filePath = path.join(process.cwd(), "models", "rolesData.json");
-    const jsonData = await getRolesData(filePath);
-    console.log(jsonData);
-    for (let i = 0; i < 12; i++) {
-      const data = {
-        id: i + 1,
-        name: jsonData["สายการเรียน"][i],
-        review_1: {
-          name: "",
-          gen: "",
-          contact: "",
-          review: "",
-        },
-        review_2: {
-          name: "",
-          gen: "",
-          contact: "",
-          review: "",
-        },
-        review_3: {
-          name: "",
-          gen: "",
-          contact: "",
-          review: "",
-        },
-      };
-      await lessonplanModel.create(data);
-    }
-    return sendResponse(res, 200, "Update clubs successfully");
-  } catch (err) {
-    console.log(err);
-    return sendResponse(res, 500, "Internal Server Error");
-  }
-};
+// export const CreateLessonPlans = async (req, res) => {
+//   try {
+//     const filePath = path.join(process.cwd(), "models", "rolesData.json");
+//     const jsonData = await getRolesData(filePath);
+//     console.log(jsonData);
+//     for (let i = 0; i < 12; i++) {
+//       const data = {
+//         id: i + 1,
+//         name: jsonData["สายการเรียน"][i],
+//         review_1: {
+//           name: "",
+//           gen: "",
+//           contact: "",
+//           review: "",
+//         },
+//         review_2: {
+//           name: "",
+//           gen: "",
+//           contact: "",
+//           review: "",
+//         },
+//         review_3: {
+//           name: "",
+//           gen: "",
+//           contact: "",
+//           review: "",
+//         },
+//       };
+//       await lessonplanModel.create(data);
+//     }
+//     return sendResponse(res, 200, "Update clubs successfully");
+//   } catch (err) {
+//     console.log(err);
+//     return sendResponse(res, 500, "Internal Server Error");
+//   }
+// };
 
 export const Edit = async (req, res) => {
   const { email } = req.body;
@@ -125,5 +125,69 @@ export const AddReview = async (req, res) => {
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const UploadImage = async (req, res) => {
+  const { email, imageType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const update = {
+      [imageType]: {
+        data: req.file.buffer,
+        contenttype: req.file.mimetype,
+      }
+    }; 
+    await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
+    return sendResponse(res, 200, "Uploaded Image Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const GetImage = async (req, res) => {
+  const { email, imageType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const clubs = await lessonplanModel.findOne({ name: user.name });
+    const image = clubs[imageType];
+    res.setHeader("Content-Type", image.contenttype);
+    res.send(image.data);
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Error Retrieving Image");
+  }
+};
+
+export const UploadProfile = async (req, res) => {
+  const { email, imgprofileType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const update = {
+      [imgprofileType]: {
+        data: req.file.buffer,
+        contenttype: req.file.mimetype,
+      }
+    };
+    await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
+    return sendResponse(res, 200, "Uploaded Image Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const GetProfile = async (req, res) => {
+  const { email, imgprofileType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const clubs = await lessonplanModel.findOne({ name: user.name });
+    const image = clubs[imgprofileType];
+    res.setHeader("Content-Type", image["contenttype"]);
+    res.send(image["data"]);
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Error Retrieving Image");
   }
 };

@@ -127,3 +127,67 @@ export const AddReview = async (req, res) => {
     return sendResponse(res, 500, "Internal Server Error");
   }
 };
+
+export const UploadImage = async (req, res) => {
+  const { email, imageType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const update = {
+      [imageType]: {
+        data: req.file.buffer,
+        contenttype: req.file.mimetype,
+      }
+    }; 
+    await clubsModel.findOneAndUpdate({ name: user.name }, update);
+    return sendResponse(res, 200, "Uploaded Image Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const GetImage = async (req, res) => {
+  const { email, imageType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const clubs = await clubsModel.findOne({ name: user.name });
+    const image = clubs[imageType];
+    res.setHeader("Content-Type", image.contenttype);
+    res.send(image.data);
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Error Retrieving Image");
+  }
+};
+
+export const UploadProfile = async (req, res) => {
+  const { email, imgprofileType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const update = {
+      [imgprofileType]: {
+        data: req.file.buffer,
+        contenttype: req.file.mimetype,
+      }
+    };
+    await clubsModel.findOneAndUpdate({ name: user.name }, update);
+    return sendResponse(res, 200, "Uploaded Image Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const GetProfile = async (req, res) => {
+  const { email, imgprofileType } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const clubs = await clubsModel.findOne({ name: user.name });
+    const image = clubs[imgprofileType];
+    res.setHeader("Content-Type", image["contenttype"]);
+    res.send(image["data"]);
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Error Retrieving Image");
+  }
+};

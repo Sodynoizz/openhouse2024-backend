@@ -80,6 +80,54 @@ const clubsSchema = new Schema({
     require: false,
     unique: false,
   },
+  image1: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  image2: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  image3: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  imgprofile1: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  imgprofile2: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  imgprofile3: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  capturepic1: {
+    type: String,
+    default: "",
+    require: false,
+    unique: false,
+  },
+  capturepic2: {
+    type: String,
+    default: "",
+    require: false,
+    unique: false,
+  },
+  capturepic3: {
+    type: String,
+    default: "",
+    require: false,
+    unique: false,
+  }
 });
 
 const clubsModel = model("Clubs", clubsSchema);
