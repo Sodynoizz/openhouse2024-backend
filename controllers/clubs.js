@@ -153,7 +153,7 @@ export const GetImage = async (req, res) => {
     const clubs = await clubsModel.findOne({ name: user.name });
     const image = clubs[imageType];
     res.setHeader("Content-Type", image.contenttype);
-    res.send(image.data);
+    res.send({ data: image.data, contenttype: image.contenttype });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
@@ -184,8 +184,8 @@ export const GetProfile = async (req, res) => {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
     const image = clubs[imgprofileType];
-    res.setHeader("Content-Type", image["contenttype"]);
-    res.send(image["data"]);
+    res.setHeader("Content-Type", image.contenttype);
+    res.send({ data: image.data, contenttype: image.contenttype });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");

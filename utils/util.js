@@ -28,5 +28,7 @@ export const sendResponse = async (res, status, message) => {
 };
 
 export const isAdmin = (email) => {
-  return process.env.ADMIN_EMAIL.includes(email);
+  if (process.env) {
+    return process.env.ADMIN_EMAIL.includes(email);
+  }
 }

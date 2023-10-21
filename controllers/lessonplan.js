@@ -133,11 +133,11 @@ export const UploadImage = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const update = {
-      [imageType]: {
+      [`${imageType}`]: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,
       }
-    }; 
+    };
     await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
   } catch (err) {
@@ -150,10 +150,10 @@ export const GetImage = async (req, res) => {
   const { email, imageType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
-    const clubs = await lessonplanModel.findOne({ name: user.name });
-    const image = clubs[imageType];
+    const lessons = await lessonplanModel.findOne({ name: user.name });
+    const image = lessons[`${imageType}`];
     res.setHeader("Content-Type", image.contenttype);
-    res.send(image.data);
+    res.send({ data: image.data, contenttype: image.contenttype });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
@@ -182,10 +182,10 @@ export const GetProfile = async (req, res) => {
   const { email, imgprofileType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
-    const clubs = await lessonplanModel.findOne({ name: user.name });
-    const image = clubs[imgprofileType];
-    res.setHeader("Content-Type", image["contenttype"]);
-    res.send(image["data"]);
+    const lessons = await lessonplanModel.findOne({ name: user.name });
+    const image = lessons[`${imgprofileType}`];
+    res.setHeader("Content-Type", image.contenttype);
+    res.send({ data: image.data, contenttype: image.contenttype });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
