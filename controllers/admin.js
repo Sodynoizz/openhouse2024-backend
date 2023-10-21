@@ -36,7 +36,7 @@ export const Decline = async (req, res) => {
     !process.env.ADMIN_EMAIL.includes(email)
   )
     return sendResponse(res, 403, "Forbidden");
-    
+
   try {
     if (type == "ชมรม") {
       const lesson = await clubsModel.findOne({ name: name });
