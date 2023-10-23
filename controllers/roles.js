@@ -1,6 +1,8 @@
 import clubsModel from "../models/clubsModel.js";
 import lessonplanModel from "../models/lessonplanModel.js";
 import rolesModel from "../models/rolesModel.js";
+import giftedModel from "../models/giftedModel.js";
+import organizationModel from "../models/organizationModel.js";
 import { sendResponse } from "../utils/util.js";
 
 export const Record = async (req, res) => {
@@ -24,14 +26,20 @@ export const Info = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user.tag === "สายการเรียน") {
-      const lesson  = await lessonplanModel.findOne({ name: user.name });
-      return sendResponse(res, 200, lesson);
-    } else {
+      const lesson = await lessonplanModel.findOne({ name: user.name });
+      return sendResponse(res, 200, {info: lesson, tag: user.tag });
+    } else if (user.tag === "ชมรม") {
       const club = await clubsModel.findOne({ name: user.name });
-      return sendResponse(res, 200, club);
+      return sendResponse(res, 200, {info: club, tag: user.tag });
+    } else if (user.tag === "โครงการพัฒนาความสามารถ") {
+      const gifted = await giftedModel.findOne({ name: user.name });
+      return sendResponse(res, 200, {info: gifted, tag: user.tag });
+    } else {
+      const organization = await organizationModel.findOne({ name: user.name });
+      return sendResponse(res, 200, {info: organization, tag: user.tag});
     }
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
   }
-}
+};

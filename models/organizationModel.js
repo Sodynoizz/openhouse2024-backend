@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const clubsSchema = new Schema({
+const organizationSchema = new Schema({
   id: {
     type: Number,
     require: true,
@@ -9,7 +9,7 @@ const clubsSchema = new Schema({
   name: {
     type: String,
     require: true,
-    unique: false,
+    unique: true,
   },
   status: {
     type: String,
@@ -19,9 +19,8 @@ const clubsSchema = new Schema({
   },
   members: {
     type: Number,
-    default: 0,
     require: true,
-    unique: false,
+    default: 0,
   },
   ig: {
     type: String,
@@ -41,22 +40,22 @@ const clubsSchema = new Schema({
     require: true,
     unique: false,
   },
-  clubsactivity: {
+  organizationdo: {
     type: String,
     default: "",
     require: true,
     unique: false,
   },
-  benefits: {
+  position: {
     type: String,
     default: "",
-    require: false,
+    require: true,
     unique: false,
   },
-  workings: {
+  working: {
     type: String,
     default: "",
-    require: false,
+    require: true,
     unique: false,
   },
   counts: {
@@ -130,5 +129,5 @@ const clubsSchema = new Schema({
   },
 });
 
-const clubsModel = model("Clubs", clubsSchema);
-export default clubsModel;
+const organizationModel = model("Organization", organizationSchema);
+export default organizationModel;

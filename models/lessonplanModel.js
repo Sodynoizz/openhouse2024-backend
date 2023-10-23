@@ -127,7 +127,7 @@ const lessonplanSchema = new Schema({
     default: "",
     require: false,
     unique: false,
-  }
+  },
 });
 
 const lessonplanModel = model("Lesson-Plans", lessonplanSchema);

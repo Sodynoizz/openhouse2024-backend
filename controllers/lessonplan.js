@@ -8,7 +8,7 @@ import { sendResponse, getRolesData } from "../utils/util.js";
 //     const filePath = path.join(process.cwd(), "models", "rolesData.json");
 //     const jsonData = await getRolesData(filePath);
 //     console.log(jsonData);
-//     for (let i = 0; i < 12; i++) {
+//     for (let i = 0; i < 8; i++) {
 //       const data = {
 //         id: i + 1,
 //         name: jsonData["สายการเรียน"][i],
@@ -132,7 +132,9 @@ export const UploadImage = async (req, res) => {
   const { email, imageType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
+    const status = "อยู่ระหว่างการตรวจสอบ";
     const update = {
+      status: status,
       [`${imageType}`]: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,
@@ -164,7 +166,9 @@ export const UploadProfile = async (req, res) => {
   const { email, imgprofileType } = req.body;
   try {
     const user = await rolesModel.findOne({ email: email });
+    const status = "อยู่ระหว่างการตรวจสอบ";
     const update = {
+      status: status,
       [imgprofileType]: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,

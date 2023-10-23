@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-const clubsSchema = new Schema({
+const giftedSchema = new Schema({
   id: {
     type: Number,
     require: true,
@@ -41,19 +41,19 @@ const clubsSchema = new Schema({
     require: true,
     unique: false,
   },
-  clubsactivity: {
+  admission: {
     type: String,
     default: "",
     require: true,
     unique: false,
   },
-  benefits: {
+  subjects: {
     type: String,
     default: "",
     require: false,
     unique: false,
   },
-  workings: {
+  interests: {
     type: String,
     default: "",
     require: false,
@@ -130,5 +130,5 @@ const clubsSchema = new Schema({
   },
 });
 
-const clubsModel = model("Clubs", clubsSchema);
-export default clubsModel;
+const giftedModel = model("Gifted", giftedSchema);
+export default giftedModel;

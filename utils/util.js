@@ -9,7 +9,6 @@ export const getRolesData = async (filePath) => {
   }
 };
 
-
 export const readFileAsync = (filePath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, "utf8", (err, data) => {
@@ -26,9 +25,3 @@ export const readFileAsync = (filePath) => {
 export const sendResponse = async (res, status, message) => {
   return await res.status(status).json(message);
 };
-
-export const isAdmin = (email) => {
-  if (process.env) {
-    return process.env.ADMIN_EMAIL.includes(email);
-  }
-}
