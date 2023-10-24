@@ -7,7 +7,6 @@ export const CreateGiftedPlans = async (req, res) => {
   try {
     const filePath = path.join(process.cwd(), "models", "rolesData.json");
     const jsonData = await getRolesData(filePath);
-    console.log(jsonData);
     for (let i = 0; i < 4; i++) {
       const data = {
         id: i + 1,

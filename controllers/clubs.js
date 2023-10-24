@@ -3,42 +3,46 @@ import rolesModel from "../models/rolesModel.js";
 import clubsModel from "../models/clubsModel.js";
 import { sendResponse, getRolesData } from "../utils/util.js";
 
-// export const CreateClubs = async (req, res) => {
-//   try {
-//     const filePath = path.join(process.cwd(), "models", "rolesData.json");
-//     const jsonData = await getRolesData(filePath);
-//     console.log(jsonData);
-//     for (let i = 0; i < 69; i++) {
-//       const data = {
-//         id: i + 1,
-//         name: jsonData["ชมรม"][i],
-//         review_1: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//         review_2: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//         review_3: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//       };
-//       await clubsModel.create(data);
-//     }
-//     return sendResponse(res, 200, "Update clubs successfully");
-//   } catch (err) {
-//     console.log(err);
-//     return sendResponse(res, 500, "Internal Server Error");
-//   }
-// };
+export const CreateClubs = async (req, res) => {
+  try {
+    const filePath = path.join(process.cwd(), "models", "rolesData.json");
+    const jsonData = await getRolesData(filePath);
+    console.log(jsonData);
+    for (let i = 0; i < 69; i++) {
+      const data = {
+        id: i + 1,
+        name: jsonData["ชมรม"][i],
+        engname: "",
+        ig: "",
+        facebook: "",
+        others: "",
+        review_1: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+        review_2: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+        review_3: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+      };
+      await clubsModel.create(data);
+    }
+    return sendResponse(res, 200, "Update clubs successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
 
 export const Edit = async (req, res) => {
   const { email } = req.body;
@@ -193,5 +197,39 @@ export const GetProfile = async (req, res) => {
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
+  }
+};
+
+export const UploadLogo = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const status = "อยู่ระหว่างการตรวจสอบ";
+    const update = {
+      status: status,
+      "logo": {
+        data: req.file.buffer,
+        contenttype: req.file.mimetype,
+      }
+    };
+    await clubsModel.findOneAndUpdate({ name: user.name }, update);
+    return sendResponse(res, 200, "Uploaded Image Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+}
+
+export const GetLogo = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await rolesModel.findOne({ email: email });
+    const clubs = await clubsModel.findOne({ name: user.name });
+    const image = clubs["logo"];
+    res.setHeader("Content-Type", image.contenttype);
+    res.send({ data: image.data, contenttype: image.contenttype });
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Error Retrieving Logo");
   }
 };

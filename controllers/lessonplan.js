@@ -3,42 +3,42 @@ import rolesModel from "../models/rolesModel.js";
 import lessonplanModel from "../models/lessonplanModel.js";
 import { sendResponse, getRolesData } from "../utils/util.js";
 
-// export const CreateLessonPlans = async (req, res) => {
-//   try {
-//     const filePath = path.join(process.cwd(), "models", "rolesData.json");
-//     const jsonData = await getRolesData(filePath);
-//     console.log(jsonData);
-//     for (let i = 0; i < 8; i++) {
-//       const data = {
-//         id: i + 1,
-//         name: jsonData["สายการเรียน"][i],
-//         review_1: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//         review_2: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//         review_3: {
-//           name: "",
-//           gen: "",
-//           contact: "",
-//           review: "",
-//         },
-//       };
-//       await lessonplanModel.create(data);
-//     }
-//     return sendResponse(res, 200, "Update clubs successfully");
-//   } catch (err) {
-//     console.log(err);
-//     return sendResponse(res, 500, "Internal Server Error");
-//   }
-// };
+export const CreateLessonPlans = async (req, res) => {
+  try {
+    const filePath = path.join(process.cwd(), "models", "rolesData.json");
+    const jsonData = await getRolesData(filePath);
+    console.log(jsonData);
+    for (let i = 0; i < 8; i++) {
+      const data = {
+        id: i + 1,
+        name: jsonData["สายการเรียน"][i],
+        review_1: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+        review_2: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+        review_3: {
+          name: "",
+          gen: "",
+          contact: "",
+          review: "",
+        },
+      };
+      await lessonplanModel.create(data);
+    }
+    return sendResponse(res, 200, "Update clubs successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
 
 export const Edit = async (req, res) => {
   const { email } = req.body;

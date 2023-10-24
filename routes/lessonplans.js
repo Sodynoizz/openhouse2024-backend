@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 import {
-  // CreateLessonPlans,
+  CreateLessonPlans,
   AddReview,
   DeleteReview,
   Edit,
@@ -17,7 +17,7 @@ const upload = multer({ storage });
 
 const lessonplansRouter = Router();
 
-// lessonplansRouter.post("/create", CreateLessonPlans);
+lessonplansRouter.post("/create", CreateLessonPlans);
 lessonplansRouter.post("/edit", Edit);
 lessonplansRouter.get("/get", GetLessonPlanLists);
 lessonplansRouter.post("/add-review", AddReview);

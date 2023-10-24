@@ -11,6 +11,12 @@ const clubsSchema = new Schema({
     require: true,
     unique: false,
   },
+  engname: {
+    type: String,
+    default: "", 
+    require: false,
+    unique: false,
+  },
   status: {
     type: String,
     default: "ยังไม่มีการแก้ไข",
@@ -76,6 +82,11 @@ const clubsSchema = new Schema({
     unique: false,
   },
   review_3: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
+  logo: {
     type: Object,
     require: false,
     unique: false,

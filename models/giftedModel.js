@@ -11,6 +11,12 @@ const giftedSchema = new Schema({
     require: true,
     unique: false,
   },
+  engname: {
+    type: String,
+    default: "",
+    require: false,
+    unique: false,
+  },
   status: {
     type: String,
     default: "ยังไม่มีการแก้ไข",
@@ -25,19 +31,19 @@ const giftedSchema = new Schema({
   },
   ig: {
     type: String,
-    default: "-",
+    default: "",
     require: true,
     unique: false,
   },
   facebook: {
     type: String,
-    default: "-",
+    default: "",
     require: true,
     unique: false,
   },
   others: {
     type: String,
-    default: "-",
+    default: "",
     require: true,
     unique: false,
   },
