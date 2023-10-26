@@ -24,9 +24,10 @@ const organizationSchema = new Schema({
     unique: false,
   },
   members: {
-    type: Number,
+    type: String,
     require: true,
-    default: 0,
+    default: "0",
+    unique: false,
   },
   ig: {
     type: String,

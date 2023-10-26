@@ -24,8 +24,8 @@ const lessonplanSchema = new Schema({
     unique: false,
   },
   members: {
-    type: Number,
-    default: 0,
+    type: String,
+    default: "0",
     require: true,
     unique: false,
   },
