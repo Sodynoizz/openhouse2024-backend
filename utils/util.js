@@ -22,6 +22,10 @@ export const readFileAsync = (filePath) => {
   });
 };
 
+export const CheckEnvironmentKey = (environmentKey) => {
+  return process.env.ENVIRONMENT_KEY === environmentKey;
+}
+
 export const sendResponse = async (res, status, message) => {
   return await res.status(status).json(message);
 };

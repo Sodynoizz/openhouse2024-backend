@@ -2,10 +2,15 @@ import lessonplanModel from "../models/lessonplanModel.js";
 import clubsModel from "../models/clubsModel.js";
 import giftedModel from "../models/giftedModel.js";
 import organizationModel from "../models/organizationModel.js";
-import { sendResponse } from "../utils/util.js";
+import { CheckEnvironmentKey, sendResponse } from "../utils/util.js";
 
 export const Approve = async (req, res) => {
-  const { email, type, name } = req.body;
+  const { email, type, name, environmentKey } = req.body;
+
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   if (
     email === "" ||
     !process.env.ADMIN_EMAIL ||
@@ -39,7 +44,11 @@ export const Approve = async (req, res) => {
 };
 
 export const Decline = async (req, res) => {
-  const { email, name, type } = req.body;
+  const { email, name, type, environmentKey } = req.body;
+   if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   if (
     email === "" ||
     !process.env.ADMIN_EMAIL ||
@@ -73,7 +82,11 @@ export const Decline = async (req, res) => {
 };
 
 export const PendingLists = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+   if (!CheckEnvironmentKey(environmentKey)) {
+     return sendResponse(res, 400, "Environment key doesn't match");
+   }
+   
   if (
     email === "" ||
     !process.env.ADMIN_EMAIL ||
