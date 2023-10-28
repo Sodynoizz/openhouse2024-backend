@@ -17,6 +17,12 @@ const lessonplanSchema = new Schema({
     require: false,
     unique: false,
   },
+  tag: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "สายการเรียน",
+  },
   status: {
     type: String,
     default: "ยังไม่มีการแก้ไข",

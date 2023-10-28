@@ -6,6 +6,12 @@ const organizationSchema = new Schema({
     require: true,
     unique: true,
   },
+  tag: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "องค์กรนักเรียน",
+  },
   name: {
     type: String,
     require: true,
