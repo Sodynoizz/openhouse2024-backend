@@ -12,19 +12,19 @@ export const CreateOrganization = async (req, res) => {
             const data = {
               id: i + 1,
               name: jsonData["องค์กรนักเรียน"][i],
-              review1: {
+              review_1: {
                 name: "",
                 gen: "",
                 contact: "",
                 review: "",
               },
-              review2: {
+              review_2: {
                 name: "",
                 gen: "",
                 contact: "",
                 review: "",
               },
-              review3: {
+              review_3: {
                 name: "",
                 gen: "",
                 contact: "",
