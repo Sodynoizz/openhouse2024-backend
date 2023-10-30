@@ -6,6 +6,12 @@ const clubsSchema = new Schema({
     require: true,
     unique: true,
   },
+  tag: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "ชมรม",
+  },
   name: {
     type: String,
     require: true,

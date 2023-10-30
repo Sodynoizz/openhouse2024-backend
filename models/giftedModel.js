@@ -6,6 +6,12 @@ const giftedSchema = new Schema({
     require: true,
     unique: true,
   },
+  tag: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "โครงการพัฒนาความสามารถ",
+  },
   name: {
     type: String,
     require: true,
