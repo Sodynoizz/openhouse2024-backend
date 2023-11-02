@@ -1,9 +1,18 @@
 import path from "path";
 import rolesModel from "../models/rolesModel.js";
 import clubsModel from "../models/clubsModel.js";
-import { sendResponse, getRolesData } from "../utils/util.js";
+import {
+  sendResponse,
+  getRolesData,
+  CheckEnvironmentKey,
+} from "../utils/util.js";
 
 export const CreateClubs = async (req, res) => {
+  const { environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const filePath = path.join(process.cwd(), "models", "rolesData.json");
     const jsonData = await getRolesData(filePath);
@@ -45,7 +54,11 @@ export const CreateClubs = async (req, res) => {
 };
 
 export const Edit = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
@@ -83,7 +96,11 @@ export const GetClubLists = async (req, res) => {
 };
 
 export const DeleteReview = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
@@ -108,7 +125,11 @@ export const DeleteReview = async (req, res) => {
 };
 
 export const AddReview = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     if (user) {
@@ -133,7 +154,11 @@ export const AddReview = async (req, res) => {
 };
 
 export const UploadImage = async (req, res) => {
-  const { email, imageType } = req.body;
+  const { email, imageType, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
@@ -142,8 +167,8 @@ export const UploadImage = async (req, res) => {
       [imageType]: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,
-      }
-    }; 
+      },
+    };
     await clubsModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
   } catch (err) {
@@ -153,7 +178,11 @@ export const UploadImage = async (req, res) => {
 };
 
 export const GetImage = async (req, res) => {
-  const { email, imageType } = req.body;
+  const { email, imageType, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
@@ -167,7 +196,11 @@ export const GetImage = async (req, res) => {
 };
 
 export const UploadProfile = async (req, res) => {
-  const { email, imgprofileType } = req.body;
+  const { email, imgprofileType, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
@@ -176,7 +209,7 @@ export const UploadProfile = async (req, res) => {
       [imgprofileType]: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,
-      }
+      },
     };
     await clubsModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
@@ -187,7 +220,11 @@ export const UploadProfile = async (req, res) => {
 };
 
 export const GetProfile = async (req, res) => {
-  const { email, imgprofileType } = req.body;
+  const { email, imgprofileType, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
@@ -201,16 +238,20 @@ export const GetProfile = async (req, res) => {
 };
 
 export const UploadLogo = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
     const update = {
       status: status,
-      "logo": {
+      logo: {
         data: req.file.buffer,
         contenttype: req.file.mimetype,
-      }
+      },
     };
     await clubsModel.findOneAndUpdate({ name: user.name }, update);
     return sendResponse(res, 200, "Uploaded Image Successfully");
@@ -218,10 +259,14 @@ export const UploadLogo = async (req, res) => {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
   }
-}
+};
 
 export const GetLogo = async (req, res) => {
-  const { email } = req.body;
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
