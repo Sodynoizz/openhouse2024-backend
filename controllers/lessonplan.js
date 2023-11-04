@@ -172,9 +172,9 @@ export const UploadImage = async (req, res) => {
       const status = "อยู่ระหว่างการตรวจสอบ";
       const update = {
         status: status,
-        logo: response.data.data.link,
+        [imageType]: response.data.data.link,
       };
-      await clubsModel.findOneAndUpdate({ name: user.name }, update);
+      await lessonplanModel.findOneAndUpdate({ name: user.name }, update);
       return sendResponse(res, 200, "Uploaded Image Successfully");
     }
   } catch (err) {
