@@ -174,7 +174,7 @@ export const UploadImage = async (req, res) => {
         status: status,
         [imageType]: response.data.data.link,
       }
-      await clubsModel.findOneAndUpdate({ name: user.name }, update);
+      await giftedModel.findOneAndUpdate({ name: user.name }, update);
       return sendResponse(res, 200, "Uploaded Image Successfully");
     }
   } catch (err) {
@@ -223,7 +223,7 @@ export const UploadProfile = async (req, res) => {
          status: status,
          [imgprofileType]: response.data.data.link,
        };
-       await clubsModel.findOneAndUpdate({ name: user.name }, update);
+       await giftedModel.findOneAndUpdate({ name: user.name }, update);
        return sendResponse(res, 200, "Uploaded Image Successfully");
     }
   } catch (err) {
