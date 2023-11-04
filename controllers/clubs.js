@@ -1,3 +1,4 @@
+import axios from "axios";
 import path from "path";
 import rolesModel from "../models/rolesModel.js";
 import clubsModel from "../models/clubsModel.js";
@@ -162,15 +163,29 @@ export const UploadImage = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
-    const update = {
-      status: status,
-      [imageType]: {
-        data: req.file.buffer,
-        contenttype: req.file.mimetype,
-      },
-    };
-    await clubsModel.findOneAndUpdate({ name: user.name }, update);
-    return sendResponse(res, 200, "Uploaded Image Successfully");
+    if (req.file) {
+      const response = await axios.post(
+        "https://api.imgur.com/3/image",
+        req.file.buffer,
+        {
+          headers: {
+            Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+            "Content-Type": "image/*",
+          },
+        }
+      );
+
+      const update = {
+        status: status,
+        [imageType]: response.data.data.link,
+      };
+      await clubsModel.findOneAndUpdate({ name: user.name }, update);
+      return sendResponse(
+        res,
+        200,
+        `Uploaded Image Successfully - ${response.data.data.link}`
+      );
+    }
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
@@ -186,9 +201,7 @@ export const GetImage = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
-    const image = clubs[imageType];
-    res.setHeader("Content-Type", image.contenttype);
-    res.send({ data: image.data, contenttype: image.contenttype });
+    return res.status(200).send({ data: clubs[imageType] });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
@@ -204,15 +217,28 @@ export const UploadProfile = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
-    const update = {
-      status: status,
-      [imgprofileType]: {
-        data: req.file.buffer,
-        contenttype: req.file.mimetype,
-      },
-    };
-    await clubsModel.findOneAndUpdate({ name: user.name }, update);
-    return sendResponse(res, 200, "Uploaded Image Successfully");
+    if (req.file) {
+      const response = await axios.post(
+        "https://api.imgur.com/3/image",
+        req.file.buffer,
+        {
+          headers: {
+            Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+            "Content-Type": "image/*",
+          },
+        }
+      );
+      const update = {
+        status: status,
+        [imgprofileType]: response.data.data.link,
+      };
+      await clubsModel.findOneAndUpdate({ name: user.name }, update);
+      return sendResponse(
+        res,
+        200,
+        "Uploaded Image Successfully - ${response.data.data.link}"
+      );
+    }
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
@@ -228,9 +254,7 @@ export const GetProfile = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
-    const image = clubs[imgprofileType];
-    res.setHeader("Content-Type", image.contenttype);
-    res.send({ data: image.data, contenttype: image.contenttype });
+    return res.status(200).send({ data: clubs[imgprofileType] });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Image");
@@ -246,15 +270,20 @@ export const UploadLogo = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const status = "อยู่ระหว่างการตรวจสอบ";
-    const update = {
-      status: status,
-      logo: {
-        data: req.file.buffer,
-        contenttype: req.file.mimetype,
-      },
-    };
-    await clubsModel.findOneAndUpdate({ name: user.name }, update);
-    return sendResponse(res, 200, "Uploaded Image Successfully");
+    if (req.file) {
+      const response = await axios.post("https://api.imgur.com/3/image", req.file.buffer, {
+        headers: {
+          Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`,
+          "Content-Type": "image/*",
+        },
+      });
+      const update = {
+        status: status,
+        logo: response.data.data.link,
+      }
+      await clubsModel.findOneAndUpdate({ name: user.name }, update);
+      return sendResponse(res, 200, "Uploaded Image Successfully");
+    }
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
@@ -270,9 +299,7 @@ export const GetLogo = async (req, res) => {
   try {
     const user = await rolesModel.findOne({ email: email });
     const clubs = await clubsModel.findOne({ name: user.name });
-    const image = clubs["logo"];
-    res.setHeader("Content-Type", image.contenttype);
-    res.send({ data: image.data, contenttype: image.contenttype });
+    return res.status(200).send({ data: clubs["logo"] });
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Error Retrieving Logo");

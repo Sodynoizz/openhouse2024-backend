@@ -74,7 +74,7 @@ export const Decline = async (req, res) => {
       organization.status = "ไม่ผ่านการตรวจสอบ";
       await organization.save();
     }
-    return sendResponse(res, 200, "Declined Succesfully");
+    return sendResponse(res, 200, "Declined Successfully");
   } catch (err) {
     console.log(err);
     return sendResponse(res, 500, "Internal Server Error");
@@ -82,11 +82,11 @@ export const Decline = async (req, res) => {
 };
 
 export const PendingLists = async (req, res) => {
-  const { email, environmentKey } = req.body;
-   if (!CheckEnvironmentKey(environmentKey)) {
-     return sendResponse(res, 400, "Environment key doesn't match");
-   }
-   
+  const { type, email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
   if (
     email === "" ||
     !process.env.ADMIN_EMAIL ||
