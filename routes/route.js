@@ -5,6 +5,7 @@ import clubsRouter from "./clubs.js";
 import lessonplansRouter from "./lessonplans.js";
 import giftedRouter from "./gifted.js";
 import organizationRouter from "./organization.js";
+import userRouter from "./user.js";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use("/lessons", lessonplansRouter);
 router.use("/admin", adminRouter);
 router.use("/gifted", giftedRouter);
 router.use("/organization", organizationRouter);
+router.use("/user", userRouter);
 
 export default router;
