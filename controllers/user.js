@@ -13,6 +13,7 @@ const isObjectEmpty = (objectName) => {
 
 export const addToDB = async (req, res) => {
   const {
+    id,
     email,
     roles,
     username,
@@ -31,7 +32,10 @@ export const addToDB = async (req, res) => {
   }
 
   try {
+    const id = await userModel.countDocuments({});
+
     const jsonData = {
+      id: id + 1,
       email: email,
       roles: roles,
       username: username,
@@ -65,3 +69,46 @@ export const getUser = async (req, res) => {
     return sendResponse(res, 500, "Internal Server Error");
   }
 };
+
+export const registerUser = async (req, res) => {
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
+  try {
+    const user = await userModel.findOne({ email: email });
+
+    if (user) {
+      user.register = true;
+      await user.save();
+      return sendResponse(res, 200, "Registered Successfully");
+    } else {
+      return sendResponse(res, 404, "This user hasn't registered yet.");
+    }
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const registerUser2 = async (req, res) => {
+    const { id, environmentKey } = req.body;
+    if (!CheckEnvironmentKey(environmentKey)) {
+        return sendResponse(res, 400, "Environment key doesn't match");
+    }
+
+    try {
+        const user = await userModel.findOne({ id: id });
+        if (user) {
+            user.register = true
+            await user.save();
+            return sendResponse(res, 200, "Registered Successfully");
+        } else {
+            return sendResponse(res, 404, "User not found");
+        }
+    } catch (err) {
+        console.log(err);
+        return sendResponse(res, 500, "Internal Server Error");
+    }
+}
