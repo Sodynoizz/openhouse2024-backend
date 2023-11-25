@@ -1,8 +1,19 @@
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
+import { sendResponse } from "../utils/util.js";
+
+const isObjectEmpty = (objectName) => {
+  for (let prop in objectName) {
+    if (objectName.hasOwnProperty(prop)) {
+      return false;
+    }
+  }
+  return true;
+};
 
 export const addToDB = async (req, res) => {
   const {
+    email,
     roles,
     username,
     prefix,
@@ -12,24 +23,45 @@ export const addToDB = async (req, res) => {
     classlvl,
     platform,
     purpose,
-    environmentKey
+    environmentKey,
   } = req.body;
 
   if (!CheckEnvironmentKey(environmentKey)) {
-    return res.status(400).send("Environment key doesn't match");
+    return sendResponse(res, 400, "Environment key doesn't match");
   }
-  
-  const jsonData = {
-    roles: roles,
-    username: username,
-    prefix: prefix,
-    name: name,
-    surname: surname,
-    school: school,
-    classlvl: classlvl,
-    platform: platform,
-    purpose: purpose,
+
+  try {
+    const jsonData = {
+      email: email,
+      roles: roles,
+      username: username,
+      prefix: prefix,
+      name: name,
+      surname: surname,
+      school: school,
+      classlvl: classlvl,
+      platform: platform,
+      purpose: purpose,
+    };
+    await userModel.create(jsonData);
+    return sendResponse(res, 200, "Added to Database Successfully");
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
   }
-  await userModel.create(jsonData);
-  return res.status(200).send("Added to Database Successfully");
+};
+
+export const getUser = async (req, res) => {
+  const { email, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
+  try {
+    const user = await userModel.findOne({ email: email });
+    return sendResponse(res, 200, !isObjectEmpty(user));
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
 };
