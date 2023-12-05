@@ -62,6 +62,34 @@ const userSchema = new Schema({
     unique: false,
     default: false,
   },
+  gems: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "",
+  },
+  gem_desc: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "",
+  },
+  estamp: {
+    type: [String],
+    require: false,
+    unique: false,
+  },
+  isstaff: {
+    type: Boolean,
+    require: false,
+    unique: false,
+    default: false,
+  },
+  staff: {
+    type: Object,
+    require: false,
+    unique: false,
+  },
 });
 
 const userModel = model("user", userSchema);

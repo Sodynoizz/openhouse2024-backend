@@ -11,11 +11,25 @@ const isObjectEmpty = (objectName) => {
   return true;
 };
 
+const range = (x, min, max) => {
+  return x >= min && x <= max;
+};
+
+const gemRanges = [
+  { range: [46, 50], name: "แอเมทิสต์" },
+  { range: [41, 45], name: "บุษราคัม" },
+  { range: [36, 40], name: "ไข่มุก" },
+  { range: [31, 35], name: "โทแพซ" },
+  { range: [26, 30], name: "ทับทิม" },
+  { range: [21, 25], name: "เพทาย" },
+  { range: [16, 20], name: "ไพลิน" },
+  { range: [11, 15], name: "ทัวร์มาลีน" },
+];
+
 export const addToDB = async (req, res) => {
   const {
-    id,
     email,
-    roles,
+    role,
     username,
     prefix,
     name,
@@ -37,7 +51,7 @@ export const addToDB = async (req, res) => {
     const jsonData = {
       id: id + 1,
       email: email,
-      roles: roles,
+      role: role,
       username: username,
       prefix: prefix,
       name: name,
@@ -78,7 +92,6 @@ export const registerUser = async (req, res) => {
 
   try {
     const user = await userModel.findOne({ email: email });
-
     if (user) {
       user.register = true;
       await user.save();
@@ -93,22 +106,79 @@ export const registerUser = async (req, res) => {
 };
 
 export const registerUser2 = async (req, res) => {
-    const { id, environmentKey } = req.body;
-    if (!CheckEnvironmentKey(environmentKey)) {
-        return sendResponse(res, 400, "Environment key doesn't match");
-    }
+  const { id, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
 
-    try {
-        const user = await userModel.findOne({ id: id });
-        if (user) {
-            user.register = true
-            await user.save();
-            return sendResponse(res, 200, "Registered Successfully");
-        } else {
-            return sendResponse(res, 404, "User not found");
-        }
-    } catch (err) {
-        console.log(err);
-        return sendResponse(res, 500, "Internal Server Error");
+  try {
+    const user = await userModel.findOne({ id: id });
+    if (user) {
+      user.register = true;
+      await user.save();
+      return sendResponse(res, 200, "Registered Successfully");
+    } else {
+      return sendResponse(res, 404, "User not found");
     }
-}
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const UpdateScore = async (req, res) => {
+  const { id, score, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
+  try {
+    const user = await userModel.findOne({ id: id });
+    let gems, gem_desc;
+
+    if (!score) {
+      return sendResponse(res, 400, "Invalid Score Field");
+    } 
+    
+    if (user) {
+      const matchingGem = gemRanges.find((gem) => range(score, ...gem.range));
+      gems = matchingGem ? matchingGem.name : undefined;
+
+      // if (gems) gem_desc = getGemDesc(gems);
+      // else return sendResponse(res, 400, "Gems not found");
+
+      user.gems = gems;
+      // user.gem_desc = gem_desc
+      await user.save();
+      return sendResponse(res, 200, "Updated user's gems successfully");
+    } else {
+      return sendResponse(res, 404, "User not found");
+    }
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
+
+export const GetGems = async (req, res) => {
+  const { id, environmentKey } = req.body;
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
+  try {
+    const user = await userModel.findOne({ id: id });
+    if (user) {
+      const jsonData = {
+        gems: user.gems,
+        gem_desc: user.gem_desc,
+      };
+      return sendResponse(res, 200, jsonData);
+    } else {
+      return sendResponse(res, 404, "User not found");
+    }
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+};
