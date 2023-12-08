@@ -89,6 +89,10 @@ const userSchema = new Schema({
     type: Object,
     require: false,
     unique: false,
+    default: {
+      "organizationName": "",
+      "tag": ""
+    }
   },
 });
 
