@@ -6,7 +6,8 @@ import {
   registerUser,
   registerUser2,
   UpdateScore,
-  AddStaff
+  AddStaff,
+  GetStaffInfo
 } from "../controllers/user.js";
 
 const userRouter = Router();
@@ -17,6 +18,7 @@ userRouter.post("/register", registerUser);
 userRouter.post("/register2", registerUser2);
 userRouter.post("/gems", UpdateScore);
 userRouter.post("/get-gems", GetGems);
-userRouter.post("/add-staff", AddStaff)
+userRouter.post("/add-staff", AddStaff);
+userRouter.post("/get-staff", GetStaffInfo);
 
 export default userRouter;

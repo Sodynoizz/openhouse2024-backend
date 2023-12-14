@@ -16,14 +16,14 @@ const range = (x, min, max) => {
 };
 
 const gemRanges = [
-  { range: [46, 50], name: "แอเมทิสต์" },
-  { range: [41, 45], name: "บุษราคัม" },
-  { range: [36, 40], name: "ไข่มุก" },
-  { range: [31, 35], name: "โทแพซ" },
-  { range: [26, 30], name: "ทับทิม" },
-  { range: [21, 25], name: "เพทาย" },
-  { range: [16, 20], name: "ไพลิน" },
-  { range: [11, 15], name: "ทัวร์มาลีน" },
+  { range: [46, 50], name: "แอเมทิสต์", description: "" },
+  { range: [41, 45], name: "บุษราคัม", description: ""  },
+  { range: [36, 40], name: "ไข่มุก", description: "" },
+  { range: [31, 35], name: "โทแพซ", description: "" },
+  { range: [26, 30], name: "ทับทิม", description: "" },
+  { range: [21, 25], name: "เพทาย", description: "" },
+  { range: [16, 20], name: "ไพลิน", description: "" },
+  { range: [11, 15], name: "ทัวร์มาลีน", description: "" },
 ];
 
 export const addToDB = async (req, res) => {
@@ -207,6 +207,31 @@ export const AddStaff = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+}
+
+export const GetStaffInfo = async (req, res) => {
+  const { id, environmentKey } = req.body;
+
+  if (!CheckEnvironmentKey(environmentKey)) {
+    return sendResponse(res, 400, "Environment key doesn't match");
+  }
+
+  try {
+    const user = await userModel.findOne({ id: id });
+    if (user) {
+      const staff = {
+        "isstaff": user.isstaff,
+        "organizationName": user.organizationName,
+        "staff": user.staff
+      };
+      return sendResponse(res, 200, staff);
+    } else {
+      return sendResponse(res, 404, "User not found");
+    }
+  } catch (err) {
+    console.log(user);
     return sendResponse(res, 500, "Internal Server Error");
   }
 }
