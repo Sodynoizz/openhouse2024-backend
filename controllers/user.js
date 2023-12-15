@@ -84,6 +84,25 @@ export const getUser = async (req, res) => {
   }
 };
 
+export const getUserInfo = async (req, res) => {
+  const { email, environmentKey } = req.body;
+  // if (!CheckEnvironmentKey(environmentKey) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
+    
+  try {
+    const user = await userModel.findOne({ email: email });
+    if (user) {
+      return sendResponse(res, 200, user);
+    } else {
+      return sendResponse(res, 404, "User not found"); 
+    }
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+}
+
 export const registerUser = async (req, res) => {
   const { email, environmentKey } = req.body;
   // if (!CheckEnvironmentKey(environmentKey)) {
