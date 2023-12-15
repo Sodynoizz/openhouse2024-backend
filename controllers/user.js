@@ -41,9 +41,9 @@ export const addToDB = async (req, res) => {
     environmentKey,
   } = req.body;
 
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const id = await userModel.countDocuments({});
@@ -71,9 +71,9 @@ export const addToDB = async (req, res) => {
 
 export const getUser = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ email: email });
@@ -86,9 +86,9 @@ export const getUser = async (req, res) => {
 
 export const registerUser = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ email: email });
@@ -107,9 +107,9 @@ export const registerUser = async (req, res) => {
 
 export const registerUser2 = async (req, res) => {
   const { id, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ id: id });
@@ -128,9 +128,9 @@ export const registerUser2 = async (req, res) => {
 
 export const UpdateScore = async (req, res) => {
   const { id, score, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ id: id });
@@ -162,9 +162,9 @@ export const UpdateScore = async (req, res) => {
 
 export const GetGems = async (req, res) => {
   const { id, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ id: id });
@@ -186,9 +186,9 @@ export const GetGems = async (req, res) => {
 export const AddStaff = async (req, res) => {
   const { id, organizationName, tag, environmentKey } = req.body;
   
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ id: id });
@@ -214,9 +214,9 @@ export const AddStaff = async (req, res) => {
 export const GetStaffInfo = async (req, res) => {
   const { id, environmentKey } = req.body;
 
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await userModel.findOne({ id: id });

@@ -7,10 +7,6 @@ import { CheckEnvironmentKey, sendResponse } from "../utils/util.js";
 export const Approve = async (req, res) => {
   const { email, type, name, environmentKey } = req.body;
 
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
-
   if (
     email === "" ||
     !process.env.ADMIN_EMAIL ||
@@ -45,9 +41,9 @@ export const Approve = async (req, res) => {
 
 export const Decline = async (req, res) => {
   const { email, name, type, environmentKey } = req.body;
-   if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  //  if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   if (
     email === "" ||
@@ -83,9 +79,9 @@ export const Decline = async (req, res) => {
 
 export const PendingLists = async (req, res) => {
   const { type, email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   if (
     email === "" ||

@@ -7,9 +7,9 @@ import { sendResponse, CheckEnvironmentKey } from "../utils/util.js";
 
 export const Record = async (req, res) => {
   const { email, tag, name, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const recordData = {

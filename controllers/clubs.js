@@ -10,9 +10,9 @@ import {
 
 export const CreateClubs = async (req, res) => {
   const { environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const filePath = path.join(process.cwd(), "models", "rolesData.json");
@@ -56,9 +56,9 @@ export const CreateClubs = async (req, res) => {
 
 export const Edit = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -98,9 +98,9 @@ export const GetClubLists = async (req, res) => {
 
 export const DeleteReview = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -127,9 +127,9 @@ export const DeleteReview = async (req, res) => {
 
 export const AddReview = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -156,9 +156,9 @@ export const AddReview = async (req, res) => {
 
 export const UploadImage = async (req, res) => {
   const { email, imageType, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -194,9 +194,9 @@ export const UploadImage = async (req, res) => {
 
 export const GetImage = async (req, res) => {
   const { email, imageType, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -210,9 +210,6 @@ export const GetImage = async (req, res) => {
 
 export const UploadProfile = async (req, res) => {
   const { email, imgprofileType, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -247,9 +244,6 @@ export const UploadProfile = async (req, res) => {
 
 export const GetProfile = async (req, res) => {
   const { email, imgprofileType, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -263,9 +257,9 @@ export const GetProfile = async (req, res) => {
 
 export const UploadLogo = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -292,9 +286,9 @@ export const UploadLogo = async (req, res) => {
 
 export const GetLogo = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
 
   try {
     const user = await rolesModel.findOne({ email: email });
