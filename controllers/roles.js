@@ -27,9 +27,9 @@ export const Record = async (req, res) => {
 
 export const Info = async (req, res) => {
   const { email, environmentKey } = req.body;
-  if (!CheckEnvironmentKey(environmentKey)) {
-    return sendResponse(res, 400, "Environment key doesn't match");
-  }
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
   
   try {
     const user = await rolesModel.findOne({ email: email });
@@ -42,9 +42,11 @@ export const Info = async (req, res) => {
     } else if (user.tag === "โครงการพัฒนาความสามารถ") {
       const gifted = await giftedModel.findOne({ name: user.name });
       return sendResponse(res, 200, { info: gifted, tag: user.tag });
-    } else {
+    } else if (user.taf === "องค์กรนักเรียน") {
       const organization = await organizationModel.findOne({ name: user.name });
       return sendResponse(res, 200, { info: organization, tag: user.tag });
+    } else {
+      return sendResponse(res, 200, user)
     }
   } catch (err) {
     console.log(err);
