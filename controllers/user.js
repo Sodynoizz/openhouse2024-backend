@@ -16,7 +16,12 @@ const range = (x, min, max) => {
 };
 
 const gemRanges = [
-  { range: [46, 50], name: "แอเมทิสต์", description: "สีสันที่เฉพาะตัวของอัญมณีแอเมทิสต์อันแสนสวยงาม เป็นองค์แห่งสติปัญญาทั้งปวง ประดับประดาสัญชาตญาณของเหล่ามนุษย์ให้ปราดเปรื่อง และคอยช่วยผดุงไว้ซึ่งชัยชนะอันอำนวยด้วยขวัญแห่งอัญมณี" },
+  {
+    range: [46, 50],
+    name: "แอเมทิสต์",
+    description:
+      "สีสันที่เฉพาะตัวของอัญมณีแอเมทิสต์อันแสนสวยงาม เป็นองค์แห่งสติปัญญาทั้งปวง ประดับประดาสัญชาตญาณของเหล่ามนุษย์ให้ปราดเปรื่อง และคอยช่วยผดุงไว้ซึ่งชัยชนะอันอำนวยด้วยขวัญแห่งอัญมณี",
+  },
   {
     range: [41, 45],
     name: "บุษราคัม",
@@ -197,12 +202,14 @@ export const UpdateScore = async (req, res) => {
     if (user) {
       const matchingGem = gemRanges.find((gem) => range(score, ...gem.range));
       gems = matchingGem ? matchingGem.name : undefined;
+      gem_desc = matchingGem ? matchingGem.description : undefined;
 
-      // if (gems) gem_desc = getGemDesc(gems);
-      // else return sendResponse(res, 400, "Gems not found");
+      if (gems) gem_desc = getGemDesc(gems);
+      else return sendResponse(res, 400, "Gems not found");
 
       user.gems = gems;
-      // user.gem_desc = gem_desc
+      user.gem_desc = gem_desc;
+
       await user.save();
       return sendResponse(res, 200, "Updated user's gems successfully");
     } else {
