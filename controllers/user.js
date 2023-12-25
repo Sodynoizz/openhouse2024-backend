@@ -204,9 +204,8 @@ export const UpdateScore = async (req, res) => {
       gems = matchingGem ? matchingGem.name : undefined;
       gem_desc = matchingGem ? matchingGem.description : undefined;
 
-      if (gems) gem_desc = getGemDesc(gems);
-      else return sendResponse(res, 400, "Gems not found");
-
+      if (!gems) return sendResponse(res, 400, "Gems not found");
+      
       user.gems = gems;
       user.gem_desc = gem_desc;
 
