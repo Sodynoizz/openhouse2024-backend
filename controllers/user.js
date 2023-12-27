@@ -297,6 +297,31 @@ export const GetStaffInfo = async (req, res) => {
   }
 };
 
+const capture = async (url, width = 911, height = 1638) => {
+  const options = process.env.AWS_REGION
+    ? {
+        args: chrome.args,
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+      }
+    : {
+        args: [],
+        executablePath:
+          process.platform === "win32"
+            ? "C:Program Files (x86)GoogleChromeApplicationchrome.exe"
+            : process.platform === "linux"
+            ? "/usr/bin/google-chrome"
+            : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+      };
+
+  const browser = await puppeteer.launch(options);
+  const page = await browser.newPage();
+  await page.evaluate(() => (document.body.style.background = "transparent"));
+  await page.setViewport({ width, height });
+  await page.goto(url, { waitUntil: "networkidle2" });
+  await page.waitForTimeout(3000);
+  return await page.screenshot({ type: "png", omitBackground: true });
+};
 export const ScreenShot = async (req, res) => {
   const { url, environmentKey } = req.body;
 
@@ -305,25 +330,12 @@ export const ScreenShot = async (req, res) => {
   // }
 
   try {
-    const browser = await puppeteer.launch({
-      headless: true,
-      executablePath:
-        "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    });
-    const page = await browser.newPage();
-    await page.goto(url);
-
-    const screenShotBuffer = await page.screenshot();
-    await browser.close();
-
-    res.writeHead(200, {
-      "Content-Type": "image/png",
-      "Content-Length": screenShotBuffer.length,
-      "Content-Disposition": "attachment; filename=screenshot.png",
-    });
-
-    res.end(screenShotBuffer);
+    const file = await capture(url);
+    res.setHeader("Content-Type", "image/png");
+    res.statusCode = 200;
+    res.end(file);
   } catch (err) {
     console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
   }
 };
