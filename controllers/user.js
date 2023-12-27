@@ -316,7 +316,7 @@ const capture = async (url, width = 911, height = 1638) => {
         ignoreDefaultArgs: ["--disable-extensions"],
       };
 
-  const browser = await puppeteer.launch(options);
+  const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.evaluate(() => (document.body.style.background = "transparent"));
   await page.setViewport({ width, height });
