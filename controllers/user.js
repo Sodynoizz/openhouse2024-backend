@@ -1,5 +1,4 @@
-import chrome from "chrome-aws-lambda";
-import puppeteer from "puppeteer-core";
+import puppeteer from "puppeteer";
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
 import { sendResponse } from "../utils/util.js";
@@ -316,7 +315,9 @@ const capture = async (url, width = 911, height = 1638) => {
         ignoreDefaultArgs: ["--disable-extensions"],
       };
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    ignoreDefaultArgs: ["--disable-extensions"],
+  });
   const page = await browser.newPage();
   await page.evaluate(() => (document.body.style.background = "transparent"));
   await page.setViewport({ width, height });
