@@ -8,7 +8,8 @@ import {
   UpdateScore,
   AddStaff,
   GetStaffInfo,
-  getUserInfo
+  getUserInfo,
+  ScreenShot
 } from "../controllers/user.js";
 
 const userRouter = Router();
@@ -22,5 +23,6 @@ userRouter.post("/gems", UpdateScore);
 userRouter.post("/get-gems", GetGems);
 userRouter.post("/add-staff", AddStaff);
 userRouter.post("/get-staff", GetStaffInfo);
+userRouter.post("/screenshot", ScreenShot)
 
 export default userRouter;

@@ -1,3 +1,4 @@
+import puppeteer from "puppeteer";
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
 import { sendResponse } from "../utils/util.js";
@@ -26,7 +27,7 @@ const gemRanges = [
     range: [41, 45],
     name: "บุษราคัม",
     description:
-      "“บุษราคัม” อัญมณีแห่งโชคลาภ\nความสำเร็จที่ไม่มีวันโรยรา\nเปรียบเสมือนคำพูดที่ว่า destiny is destined by you\nมีเพียงคุณเท่านั้นที่เป็นผู้ลิขิตได้!\nไม่ว่าจะเจอเรื่องหนักหนาเพียงใด\nเพียงเชื่อมั่นกับตัวเอง “ฉันทำได้”\nไม่มีสิ่งใดจะพรากคุณจากความฝันไปได้\nแล้วตัวคุณจะดึงดูดสิ่งดี ๆ เข้ามาหาคุณเอง\nเมื่อหัวใจของคุณสู้\nพร้อมกับใช้หัวใจนำทาง\nโชคชะตาจะนำพาความสำเร็จมาให้คุณเอง",
+      "“บุษราคัม” อัญมณีแห่งโชคลาภ\nความสำเร็จที่ไม่มีวันโรยรา\nเปรียบเสมือนคำพูดที่ว่า\ndestiny is destined by you\nมีเพียงคุณเท่านั้นที่เป็นผู้ลิขิตได้!\nไม่ว่าจะเจอเรื่องหนักหนาเพียงใด\nเพียงเชื่อมั่นกับตัวเอง “ฉันทำได้”\nไม่มีสิ่งใดจะพรากคุณจากความฝันไปได้\nแล้วตัวคุณจะดึงดูดสิ่งดี ๆ เข้ามาหาคุณเอง\nเมื่อหัวใจของคุณสู้ พร้อมกับใช้หัวใจนำทาง\nโชคชะตาจะนำพาความสำเร็จมาให้คุณเอง",
   },
   {
     range: [36, 40],
@@ -205,7 +206,7 @@ export const UpdateScore = async (req, res) => {
       gem_desc = matchingGem ? matchingGem.description : undefined;
 
       if (!gems) return sendResponse(res, 400, "Gems not found");
-      
+
       user.gems = gems;
       user.gem_desc = gem_desc;
 
@@ -294,4 +295,27 @@ export const GetStaffInfo = async (req, res) => {
     console.log(user);
     return sendResponse(res, 500, "Internal Server Error");
   }
+};
+
+export const ScreenShot = async (req, res) => {
+  const { url, environmentKey } = req.body;
+
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //   return sendResponse(res, 400, "Environment key doesn't match");
+  // }
+
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto(url);
+
+  const screenShotBuffer = await page.screenshot();
+  await browser.close();
+
+  res.writeHead(200, {
+    "Content-Type": "image/png",
+    "Content-Length": screenShotBuffer.length,
+    "Content-Disposition": "attachment; filename=screenshot.png",
+  });
+
+  res.end(screenShotBuffer);
 };
