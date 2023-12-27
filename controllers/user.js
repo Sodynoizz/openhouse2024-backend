@@ -313,6 +313,7 @@ const capture = async (url, width = 911, height = 1638) => {
             : process.platform === "linux"
             ? "/usr/bin/google-chrome"
             : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        ignoreDefaultArgs: ["--disable-extensions"],
       };
 
   const browser = await puppeteer.launch(options);
