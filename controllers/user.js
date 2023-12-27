@@ -305,19 +305,19 @@ export const ScreenShot = async (req, res) => {
   // }
 
   try {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: "new" });
     const page = await browser.newPage();
     await page.goto(url);
-  
+
     const screenShotBuffer = await page.screenshot();
     await browser.close();
-  
+
     res.writeHead(200, {
       "Content-Type": "image/png",
       "Content-Length": screenShotBuffer.length,
       "Content-Disposition": "attachment; filename=screenshot.png",
     });
-  
+
     res.end(screenShotBuffer);
   } catch (err) {
     console.log(err);
