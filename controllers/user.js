@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import chrome from "chrome-aws-lambda";
+import puppeteer from "puppeteer-core";
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
 import { sendResponse } from "../utils/util.js";
