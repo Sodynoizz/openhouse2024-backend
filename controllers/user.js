@@ -302,7 +302,12 @@ const capture = async (url, width = 911, height = 1638) => {
   console.log(process.env.AWS_REGION);
   const options = process.env.AWS_REGION
     ? {
-        args: ["--no-sandbox", "--disbale-setuid-sandbox"],
+        args: [
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--single-process",
+        ],
         executablePath: await chromium.executablePath(),
         headless: chromium.headless,
         ignoreDefaultArgs: ["--disable-extensions"],
