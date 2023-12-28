@@ -308,12 +308,8 @@ const capture = async (url, width = 911, height = 1638) => {
     : {
         args: [],
         executablePath:
-          process.platform === "win32"
-            ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-            : process.platform === "linux"
-            ? "/usr/bin/google-chrome"
-            : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        headless: true
+          "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
+        headless: "new"
       };
   const browser = await puppeteer.launch(options);
 
