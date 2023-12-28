@@ -298,26 +298,7 @@ export const GetStaffInfo = async (req, res) => {
 };
 
 const capture = async (url, width = 911, height = 1638) => {
-  const options = process.env.AWS_REGION
-    ? {
-        args: chrome.args,
-        executablePath: await chrome.executablePath,
-        headless: chrome.headless,
-      }
-    : {
-        args: [],
-        executablePath:
-          process.platform === "win32"
-            ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-            : process.platform === "linux"
-            ? "/usr/bin/google-chrome"
-            : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        ignoreDefaultArgs: ["--disable-extensions"],
-      };
-
-  const browser = await puppeteer.launch({
-    headless: "old",
-  });
+  const browser = await puppeteer.launch({ headless: "old" });
   
   try {
     const page = await browser.newPage();
