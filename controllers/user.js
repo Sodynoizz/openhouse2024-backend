@@ -298,15 +298,13 @@ export const GetStaffInfo = async (req, res) => {
 };
 
 const capture = async (url, width = 911, height = 1638) => {
-  const browser = await puppeteer.launch({ headless: "old" });
-  
-  try {
-    const page = await browser.newPage();
-    await page.setViewport({ width, height });
-    await page.goto(url);
-    await new Promise((r) => setTimeout(r, 2000));
+  const browser = await puppeteer.launch();
 
-    await page.screenshot({ type: "test.png" });
+  try {
+    const page = await browser.newPage({ headless: true }); // Set headless to true for production
+    await page.setViewport({ width, height });
+    await page.goto(url, { waitUntil: "networkidle0" }); // Wait until the page is fully loaded
+    return await page.screenshot({ type: "png", omitBackground: true });
   } finally {
     await browser.close();
   }
@@ -315,16 +313,20 @@ export const ScreenShot = async (req, res) => {
   const { url, environmentKey } = req.body;
 
   // if (!CheckEnvironmentKey(environmentKey)) {
-  //   return sendResponse(res, 400, "Environment key doesn't match");
+  //   return sendResponse(res, 400, "Environment key doesn't match")
   // }
 
   try {
-    const file = await capture("https://orla.africa/");
-    res.setHeader("Content-Type", "image/png");
+    const file = await capture(url);
+    res.setHeader("Content-Type", `image/png`);
+    res.setHeader(
+      "Cache-Control",
+      `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`
+    );
     res.statusCode = 200;
     res.end(file);
   } catch (err) {
-    console.log(err);
-    return sendResponse(res, 500, "Internal Server Error");
+    console.error(err);
+    res.status(500).send("Internal Server Error");
   }
 };
