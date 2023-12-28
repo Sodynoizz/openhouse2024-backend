@@ -298,10 +298,10 @@ export const GetStaffInfo = async (req, res) => {
 };
 
 const capture = async (url, width = 911, height = 1638) => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: true });
 
   try {
-    const page = await browser.newPage({ headless: true }); // Set headless to true for production
+    const page = await browser.newPage(); // Set headless to true for production
     await page.setViewport({ width, height });
     await page.goto(url, { waitUntil: "networkidle0" }); // Wait until the page is fully loaded
     return await page.screenshot({ type: "png", omitBackground: true });
