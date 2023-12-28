@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer-core";
-import chromium from "chrome-aws-lambda";
+import chrome from "chrome-aws-lambda";
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
 import { sendResponse } from "../utils/util.js";
@@ -301,9 +301,9 @@ export const GetStaffInfo = async (req, res) => {
 const capture = async (url, width = 911, height = 1638) => {
     const options = process.env.AWS_REGION
       ? {
-          args: chromium.args,
-          executablePath: await chromium.executablePath,
-          headless: chromium.headless,
+          args: chrome.args,
+          executablePath: await chrome.executablePath,
+          headless: chrome.headless,
           ignoreDefaultArgs: ["--disable-extensions"],
         }
       : {
@@ -316,7 +316,7 @@ const capture = async (url, width = 911, height = 1638) => {
               : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
         };
 
-    const browser = await chromium.puppeteer.launch(options);
+    const browser = await puppeteer.launch(options);
 
 
   try {
