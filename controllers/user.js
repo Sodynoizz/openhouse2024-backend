@@ -316,14 +316,19 @@ const capture = async (url, width = 911, height = 1638) => {
       };
 
   const browser = await puppeteer.launch({
-    ignoreDefaultArgs: ["--disable-extensions"],
+    headless: "old",
   });
-  const page = await browser.newPage();
-  await page.evaluate(() => (document.body.style.background = "transparent"));
-  await page.setViewport({ width, height });
-  await page.goto(url, { waitUntil: "networkidle2" });
-  await page.waitForTimeout(3000);
-  return await page.screenshot({ type: "png", omitBackground: true });
+  
+  try {
+    const page = await browser.newPage();
+    await page.setViewport({ width, height });
+    await page.goto(url);
+    await new Promise((r) => setTimeout(r, 2000));
+
+    await page.screenshot({ type: "test.png" });
+  } finally {
+    await browser.close();
+  }
 };
 export const ScreenShot = async (req, res) => {
   const { url, environmentKey } = req.body;
@@ -333,7 +338,7 @@ export const ScreenShot = async (req, res) => {
   // }
 
   try {
-    const file = await capture(url);
+    const file = await capture("https://orla.africa/");
     res.setHeader("Content-Type", "image/png");
     res.statusCode = 200;
     res.end(file);
