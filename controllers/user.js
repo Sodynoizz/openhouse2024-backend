@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer";
+import chrome from "chrome-aws-lambda";
 import userModel from "../models/userModel.js";
 import { CheckEnvironmentKey } from "../utils/util.js";
 import { sendResponse } from "../utils/util.js";
@@ -298,7 +299,23 @@ export const GetStaffInfo = async (req, res) => {
 };
 
 const capture = async (url, width = 911, height = 1638) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const options = process.env.AWS_REGION
+    ? {
+        args: chrome.args,
+        executablePath: await chrome.executablePath,
+        headless: chrome.headless,
+      }
+    : {
+        args: [],
+        executablePath:
+          process.platform === "win32"
+            ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+            : process.platform === "linux"
+            ? "/usr/bin/google-chrome"
+            : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        headless: true
+      };
+  const browser = await puppeteer.launch(options);
 
   try {
     const page = await browser.newPage(); // Set headless to true for production
