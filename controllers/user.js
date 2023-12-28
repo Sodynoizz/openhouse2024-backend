@@ -299,10 +299,10 @@ export const GetStaffInfo = async (req, res) => {
 };
 
 const capture = async (url, width = 911, height = 1638) => {
-  console.log(process.env.AWS_REGION)
+  console.log(process.env.AWS_REGION);
   const options = process.env.AWS_REGION
     ? {
-        args: chrome.args,
+        args: ["--no-sandbox", "--disbale-setuid-sandbox"],
         executablePath: await chrome.executablePath,
         headless: chrome.headless,
         ignoreDefaultArgs: ["--disable-extensions"],
@@ -318,7 +318,7 @@ const capture = async (url, width = 911, height = 1638) => {
       };
 
   const browser = await puppeteer.launch(options);
-  
+
   try {
     const page = await browser.newPage(); // Set headless to true for production
     await page.setViewport({ width, height });
