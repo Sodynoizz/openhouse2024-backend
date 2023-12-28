@@ -303,7 +303,7 @@ const capture = async (url, width = 911, height = 1638) => {
   const options = process.env.AWS_REGION
     ? {
         args: ["--no-sandbox", "--disbale-setuid-sandbox"],
-        executablePath: await chromium.executablePath,
+        executablePath: await chromium.executablePath(),
         headless: chromium.headless,
         ignoreDefaultArgs: ["--disable-extensions"],
       }
@@ -337,6 +337,7 @@ export const ScreenShot = async (req, res) => {
 
   try {
     const file = await capture(url);
+    console.log(typeof file);
     res.setHeader("Content-Type", `image/png`);
     res.setHeader(
       "Cache-Control",
