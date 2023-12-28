@@ -304,6 +304,7 @@ const capture = async (url, width = 911, height = 1638) => {
           args: chrome.args,
           executablePath: await chrome.executablePath,
           headless: chrome.headless,
+          ignoreDefaultArgs: ["--disable-extensions"],
         }
       : {
           args: [],
