@@ -1,15 +1,13 @@
 import { Router } from "express";
+import { GetGems, UpdateScore } from "../controllers/quiz.js";
+import { ScreenShot } from "../controllers/screenshot.js";
+import { AddStaff, GetStaffInfo } from "../controllers/staff.js";
 import {
   addToDB,
-  GetGems,
   getUser,
   registerUser,
   registerUser2,
-  UpdateScore,
-  AddStaff,
-  GetStaffInfo,
   getUserInfo,
-  ScreenShot
 } from "../controllers/user.js";
 
 const userRouter = Router();

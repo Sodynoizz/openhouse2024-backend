@@ -75,9 +75,10 @@ const userSchema = new Schema({
     default: "",
   },
   estamp: {
-    type: [String],
+    type: Number,
     require: false,
     unique: false,
+    default: 0
   },
   isstaff: {
     type: Boolean,

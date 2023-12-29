@@ -1,20 +1,22 @@
 import { Router } from "express";
 import adminRouter from "./admin.js";
-import rolesRouter from "./roles.js";
 import clubsRouter from "./clubs.js";
-import lessonplansRouter from "./lessonplans.js";
+import estampRouter from "./estamp.js";
 import giftedRouter from "./gifted.js";
+import lessonplansRouter from "./lessonplans.js";
 import organizationRouter from "./organization.js";
+import rolesRouter from "./roles.js";
 import userRouter from "./user.js";
 
 const router = Router();
 
-router.use("/roles", rolesRouter);
-router.use("/clubs", clubsRouter);
-router.use("/lessons", lessonplansRouter);
 router.use("/admin", adminRouter);
+router.use("/clubs", clubsRouter);
+router.use("/estamp", estampRouter);
 router.use("/gifted", giftedRouter);
+router.use("/lessons", lessonplansRouter);
 router.use("/organization", organizationRouter);
+router.use("/roles", rolesRouter);
 router.use("/user", userRouter);
 
 export default router;
