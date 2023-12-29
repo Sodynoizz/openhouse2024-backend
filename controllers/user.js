@@ -298,7 +298,7 @@ export const GetStaffInfo = async (req, res) => {
   }
 };
 
-const capture = async (url, width = 911, height = 1638) => {
+const capture = async (url, width = 840, height = 1656) => {
   const options = process.env.AWS_REGION
     ? {
         args: [
@@ -332,6 +332,7 @@ const capture = async (url, width = 911, height = 1638) => {
     await browser.close();
   }
 };
+
 export const ScreenShot = async (req, res) => {
   const { url, environmentKey } = req.body;
 
