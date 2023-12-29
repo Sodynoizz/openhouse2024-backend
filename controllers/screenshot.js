@@ -2,7 +2,7 @@ import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
 import { CheckEnvironmentKey, sendResponse } from "../utils/util.js";
 
-const capture = async (url, width = 840, height = 1656) => {
+const capture = async (url, width = 1080, height = 1920) => {
   const options = process.env.AWS_REGION
     ? {
         args: [
