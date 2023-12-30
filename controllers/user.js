@@ -88,7 +88,7 @@ export const getUserInfo = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-  const { email, environmentKey } = req.body;
+  const { email, gate, environmentKey } = req.body;
   // if (!CheckEnvironmentKey(environmentKey)) {
   //   return sendResponse(res, 400, "Environment key doesn't match");
   // }
@@ -96,7 +96,9 @@ export const registerUser = async (req, res) => {
   try {
     const user = await userModel.findOne({ email: email });
     if (user) {
+      user.gate = gate;
       user.register = true;
+      
       await user.save();
       return sendResponse(res, 200, "Registered Successfully");
     } else {
@@ -109,7 +111,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const registerUser2 = async (req, res) => {
-  const { id, environmentKey } = req.body;
+  const { id, gate,  environmentKey } = req.body;
   // if (!CheckEnvironmentKey(environmentKey)) {
   //   return sendResponse(res, 400, "Environment key doesn't match");
   // }
@@ -117,7 +119,9 @@ export const registerUser2 = async (req, res) => {
   try {
     const user = await userModel.findOne({ id: id });
     if (user) {
+      user.gate = gate;
       user.register = true;
+
       await user.save();
       return sendResponse(res, 200, "Registered Successfully");
     } else {

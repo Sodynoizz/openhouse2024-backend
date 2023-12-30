@@ -62,6 +62,12 @@ const userSchema = new Schema({
     unique: false,
     default: false,
   },
+  gate: {
+    type: String,
+    require: false,
+    unique: false,
+    default: "",
+  },
   gems: {
     type: String,
     require: false,
