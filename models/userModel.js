@@ -84,7 +84,13 @@ const userSchema = new Schema({
     type: Number,
     require: false,
     unique: false,
-    default: 0
+    default: 0,
+  },
+  verifyestamp: {
+    type: [String],
+    require: false,
+    unique: false,
+    default: [],
   },
   isstaff: {
     type: Boolean,
@@ -97,9 +103,9 @@ const userSchema = new Schema({
     require: false,
     unique: false,
     default: {
-      "organizationName": "",
-      "tag": ""
-    }
+      organizationName: "",
+      tag: "",
+    },
   },
 });
 
