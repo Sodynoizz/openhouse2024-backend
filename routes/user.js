@@ -8,6 +8,7 @@ import {
   registerUser,
   registerUser2,
   getUserInfo,
+  getUserByID,
 } from "../controllers/user.js";
 
 const userRouter = Router();
@@ -15,6 +16,7 @@ const userRouter = Router();
 userRouter.post("/add", addToDB);
 userRouter.post("/has-account", getUser);
 userRouter.post("/get", getUserInfo);
+userRouter.post("/getbyID", getUserByID)
 userRouter.post("/register", registerUser);
 userRouter.post("/register2", registerUser2);
 userRouter.post("/gems", UpdateScore);
