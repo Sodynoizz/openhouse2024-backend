@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import route from "./routes/route.js";
 
+
 const app = express();
 const port = process.env.PORT || 5000;
 

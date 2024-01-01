@@ -31,7 +31,7 @@ const capture = async (url, width = 1080, height = 1920) => {
     const page = await browser.newPage();
     await page.setViewport({ width, height });
     await page.goto(url, { waitUntil: "networkidle0" });
-    return await page.screenshot({ type: "png", omitBackground: true });
+    return await page.screenshot({ type: "jpg", omitBackground: true });
   } finally {
     await browser.close();
   }
@@ -47,7 +47,7 @@ export const ScreenShot = async (req, res) => {
   try {
     const file = await capture(url);
     console.log(typeof file);
-    res.setHeader("Content-Type", `image/png`);
+    res.setHeader("Content-Type", `image/jpg`);
     res.setHeader(
       "Cache-Control",
       `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`
