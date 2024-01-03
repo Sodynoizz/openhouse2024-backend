@@ -11,9 +11,9 @@ export const Stats = async (req, res) => {
       registrant: await counts({}),
       participants: await counts({ register: true }),
       gate: {
-        prayathai: await counts({ gate: "พญาไท" }),
-        henridunant: await counts({ gate: "อังรีดูนังต์" }),
-        pratoogray: await counts({ gate: "ประตูเทา" }),
+        พญาไท: await counts({ gate: "พญาไท" }),
+        อังรีดูนังต์: await counts({ gate: "อังรีดูนังต์" }),
+        ประตูเทา: await counts({ gate: "ประตูเทา" }),
       },
       gems: {
         แอเมทิสต์: await counts({ gems: "แอเมทิสต์" }),
