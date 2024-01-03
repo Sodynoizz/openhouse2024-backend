@@ -1,5 +1,5 @@
 import userModel from "../models/userModel.js";
-import { CheckEnvironmentKey, sendResponse } from "../utils/util.js";
+import { convertID, CheckEnvironmentKey, sendResponse } from "../utils/util.js";
 
 export const UpdateEstamp = async (req, res) => {
   const { id, verifyestamp, environmentKey } = req.body;
@@ -8,8 +8,8 @@ export const UpdateEstamp = async (req, res) => {
   //     return sendResponse(res, 400, "Environment key doens't match");
   // }
 
-  try {
-    const user = await userModel.findOne({ id: id });
+  try { 
+    const user = await userModel.findOne({ id: convertID(id) });
     if (user) {
       if (!user.verifyestamp.includes(verifyestamp)) {
         let stampAmt = user.estamp;
@@ -41,7 +41,7 @@ export const GetEstampUser = async (req, res) => {
   // }
 
   try {
-    const user = await userModel.findOne({ id: id });
+    const user = await userModel.findOne({ id: convertID(id) });
     if (user) {
       return sendResponse(res, 200, user.estamp);
     } else {

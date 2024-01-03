@@ -1,5 +1,5 @@
 import userModel from "../models/userModel.js";
-import { CheckEnvironmentKey, sendResponse } from "../utils/util.js";
+import { convertID, CheckEnvironmentKey, sendResponse } from "../utils/util.js";
 
 const isObjectEmpty = (objectName) => {
   for (let prop in objectName) {
@@ -117,7 +117,7 @@ export const registerUser = async (req, res) => {
     if (user) {
       user.gate = gate;
       user.register = true;
-      
+
       await user.save();
       return sendResponse(res, 200, "Registered Successfully");
     } else {
@@ -130,7 +130,7 @@ export const registerUser = async (req, res) => {
 };
 
 export const registerUser2 = async (req, res) => {
-  const { id, gate,  environmentKey } = req.body;
+  const { id, gate, environmentKey } = req.body;
   // if (!CheckEnvironmentKey(environmentKey)) {
   //   return sendResponse(res, 400, "Environment key doesn't match");
   // }

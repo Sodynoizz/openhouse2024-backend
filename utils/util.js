@@ -1,5 +1,10 @@
 import fs from "fs";
 
+export const convertID = (id) => {
+  const res = parseInt(id, 10);
+  return isNaN(res) ? id : res;
+};
+
 export const getRolesData = async (filePath) => {
   try {
     const data = await readFileAsync(filePath);
