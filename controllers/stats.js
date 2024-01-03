@@ -15,6 +15,16 @@ export const Stats = async (req, res) => {
         henridunant: await counts({ gate: "อังรีดูนังต์" }),
         pratoogray: await counts({ gate: "ประตูเทา" }),
       },
+      gems: {
+        แอเมทิสต์: await counts({ gems: "แอเมทิสต์" }),
+        บุษราคัม: await counts({ gems: "บุษราคัม" }),
+        ไข่มุก: await counts({ gems: "ไข่มุก" }),
+        โทแพซ: await counts({ gems: "โทแพซ" }),
+        ทับทิม: await counts({ gems: "ทับทิม" }),
+        เพทาย: await counts({ gems: "เพทาย" }),
+        ไพลิน: await counts({ gems: "ไพลิน" }),
+        ทัวร์มาลีน: await counts({ gems: "ทัวร์มาลีน" }),
+      },
     };
     return sendResponse(res, 200, stats);
   } catch (err) {
