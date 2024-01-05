@@ -19,7 +19,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     require: true,
-    unique: true,
+    unique: false,
   },
   prefix: {
     type: String,
