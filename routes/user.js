@@ -4,6 +4,7 @@ import { ScreenShot } from "../controllers/screenshot.js";
 import { AddStaff, GetStaffInfo } from "../controllers/staff.js";
 import {
   addToDB,
+  checkUsername,
   getUser,
   registerUser,
   registerUser2,
@@ -24,5 +25,6 @@ userRouter.post("/get-gems", GetGems);
 userRouter.post("/add-staff", AddStaff);
 userRouter.post("/get-staff", GetStaffInfo);
 userRouter.post("/screenshot", ScreenShot)
+userRouter.get("/check-username/:username", checkUsername)
 
 export default userRouter;

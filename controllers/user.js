@@ -151,3 +151,17 @@ export const registerUser2 = async (req, res) => {
     return sendResponse(res, 500, "Internal Server Error");
   }
 };
+
+export const checkUsername = async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await userModel.findOne({ username: username });
+    if (user) {
+      return sendResponse(res, 400, "User is already existed");
+    } 
+    return sendResponse(res, 200, "Username is available")
+  } catch (err) {
+    console.log(err);
+  }
+};
