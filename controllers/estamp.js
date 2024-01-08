@@ -52,3 +52,25 @@ export const GetEstampUser = async (req, res) => {
     return sendResponse(res, 500, "Internal Server Error");
   }
 };
+
+export const ResetEstampUser = async (req, res) => {
+  const { id, environmentKey} = req.body;
+
+  // if (!CheckEnvironmentKey(environmentKey)) {
+  //     return sendResponse(res, 400, "Environment key doens't match");
+  // }
+
+  try {
+    const user = await userModel.findOne({ id: convertID(id)});
+    if (user) {
+      user.estamp = 0;
+      await user.save();
+      return sendResponse(res, 200, "Reset user's estamp successfully");
+    } else {
+      return sendResponse(res, 400, "User not found");
+    }
+  } catch (err) {
+    console.log(err);
+    return sendResponse(res, 500, "Internal Server Error");
+  }
+}
